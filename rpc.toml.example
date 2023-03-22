@@ -1,0 +1,6 @@
+
+port = 5015
+host = "0.0.0.0"
+
+[db_config]
+database_url = "postgresql://orion:orion123@127.0.0.1:5432/orion"
