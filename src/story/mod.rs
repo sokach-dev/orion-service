@@ -59,7 +59,7 @@ mod test {
         .await
     }
 
-    #[sqlx_database_tester::test(pool(variable = "migrated_pool", migrations = "../migrations"))]
+    #[sqlx_database_tester::test(pool(variable = "migrated_pool", migrations = "./migrations"))]
     async fn add_story_should_work() {
         let (_db, s) = get_a_small_story_db(&migrated_pool).await.unwrap();
         assert_eq!(s.read_count, 0);

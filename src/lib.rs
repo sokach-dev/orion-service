@@ -1,6 +1,8 @@
+pub mod learn_word;
 mod rpc;
-pub mod story;
-pub mod vocabulary;
+mod story;
+mod vocabulary;
+mod word_list;
 
 use abi::story_service_server::StoryServiceServer;
 use abi::vocabulary_service_server::VocabularyServiceServer;

@@ -115,7 +115,7 @@ mod test {
         .await
     }
 
-    #[sqlx_database_tester::test(pool(variable = "migrated_pool", migrations = "../migrations"))]
+    #[sqlx_database_tester::test(pool(variable = "migrated_pool", migrations = "./migrations"))]
     async fn get_vocabulary_should_work() {
         let (db, _v) = get_apple_db(&migrated_pool).await.unwrap();
         let q = abi::VocabularyQueryBuilder::default()
