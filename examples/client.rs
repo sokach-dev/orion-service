@@ -1,11 +1,11 @@
-use abi::vocabulary_service_client::VocabularyServiceClient;
+use abi::orion_service_client::OrionServiceClient;
 use abi::{QueryVocabularyRequest, VocabularyQuery};
 use tonic::transport::Channel;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut client: VocabularyServiceClient<Channel> =
-        VocabularyServiceClient::connect("http://127.0.0.1:5015").await?;
+    let mut client: OrionServiceClient<Channel> =
+        OrionServiceClient::connect("http://127.0.0.1:5015").await?;
 
     let request = tonic::Request::new(QueryVocabularyRequest {
         query: Some(VocabularyQuery {

@@ -4,8 +4,7 @@ mod story;
 mod vocabulary;
 mod word_list;
 
-use abi::story_service_server::StoryServiceServer;
-use abi::vocabulary_service_server::VocabularyServiceServer;
+use abi::orion_service_server::OrionServiceServer;
 use sqlx::PgPool;
 
 #[derive(Debug, Clone)]
@@ -43,14 +42,12 @@ pub async fn start_server(config: &abi::Config) -> Result<(), Box<dyn std::error
     let addr: std::net::SocketAddr = format!("{}:{}", config.host, config.port).parse()?;
 
     let svc = OrionService::from_config(&config.db_config).await?;
-    let vocabulary_svc = VocabularyServiceServer::new(svc.clone());
-    let story_svc = StoryServiceServer::new(svc.clone());
+    let orion_svc = OrionServiceServer::new(svc.clone());
 
     tracing::info!("Listening on {}", addr);
 
     tonic::transport::Server::builder()
-        .add_service(vocabulary_svc)
-        .add_service(story_svc)
+        .add_service(orion_svc)
         .serve(addr)
         .await?;
     Ok(())

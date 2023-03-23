@@ -5,7 +5,7 @@ version = 3
 [[package]]
 name = "abi"
 version = "0.1.0"
-source = "git+https://github.com/sokach-dev/orion-abi#41d14fba1e58f797cb2f41ec473df82901fb671f"
+source = "git+https://github.com/sokach-dev/orion-abi#531c00b6a707ce539e84b7fdaa2c866a647b5323"
 dependencies = [
  "anyhow",
  "chrono",

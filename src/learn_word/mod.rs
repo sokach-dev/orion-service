@@ -48,8 +48,8 @@ impl LearnWordTrait for ModelService {
         .bind(s.word.clone())
         .bind(vocabulary_id)
         .bind(word_list_id)
-        .bind(abi::convert_to_utc_time(&s.last_learned_at.clone().unwrap()))
-        .bind(abi::convert_to_utc_time(&s.next_learn_at.clone().unwrap()))
+        .bind(s.last_learned_at.clone())
+        .bind(s.next_learn_at.clone())
         .fetch_one(&self.pool)
         .await?
         .get(0);
@@ -92,8 +92,8 @@ mod test {
             word_list_id: 0,
             learn_count: 0,
             learn_status: learn_status.into(),
-            last_learned_at: Some(abi::convert_to_timestamp(&chrono::Utc::now())),
-            next_learn_at: Some(abi::convert_to_timestamp(&chrono::Utc::now())),
+            last_learned_at: "2022-02-02".to_string(),
+            next_learn_at: "2023-02-02".to_string(),
             created_at: None,
             updated_at: None,
         };

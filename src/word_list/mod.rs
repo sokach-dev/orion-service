@@ -17,18 +17,16 @@ pub trait WordListTrait {
 impl WordListTrait for ModelService {
     /// make a word list
     async fn add_word_list(&self, mut s: abi::WordList) -> Result<abi::WordList, abi::Error> {
-        let class = abi::WordClassification::from_i32(s.classification).unwrap();
-
         let id: i64 = sqlx::query(
             r#"
             INSERT INTO orion.word_list (word, paraphrase, classification)
-            VALUES ($1, $2, $3::word_classification)
+            VALUES ($1, $2, $3)
             RETURNING id
             "#,
         )
         .bind(s.word.clone())
         .bind(s.paraphrase.clone())
-        .bind(class.to_string())
+        .bind(s.classification.clone())
         .fetch_one(&self.pool)
         .await?
         .get(0);
@@ -61,7 +59,7 @@ mod test {
         pool: &sqlx::PgPool,
         word: String,
         paraphrase: String,
-        classification: abi::WordClassification,
+        classification: String,
     ) -> Result<(ModelService, abi::WordList), abi::Error> {
         let db = ModelService::new(pool.clone());
 
@@ -69,7 +67,7 @@ mod test {
             id: 0,
             word,
             paraphrase,
-            classification: classification.into(),
+            classification,
             created_at: None,
             updated_at: None,
         };
@@ -80,13 +78,7 @@ mod test {
     async fn get_apple_db(
         pool: &sqlx::PgPool,
     ) -> Result<(ModelService, abi::WordList), abi::Error> {
-        get_db(
-            pool,
-            "apple".into(),
-            "苹果".into(),
-            abi::WordClassification::Junior,
-        )
-        .await
+        get_db(pool, "apple".into(), "苹果".into(), "junior".into()).await
     }
 
     #[sqlx_database_tester::test(pool(variable = "migrated_pool", migrations = "./migrations"))]
